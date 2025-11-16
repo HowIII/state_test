@@ -1,0 +1,53 @@
+# Example configuration for training ESM-based perturbation encoder
+# on genetic perturbation datasets
+#
+# This configuration file demonstrates how to set up training for genetic
+# perturbations using ESM2 protein embeddings as the perturbation encoder.
+#
+# Usage:
+#   python train_esm_perturbation.py --config esm_genetic_example.toml
+
+# Dataset paths - maps dataset names to their directories containing h5 files
+[datasets]
+# IMPORTANT: Update these paths to point to your actual dataset directories
+# Each directory should contain h5 files with genetic perturbation data
+replogle_k562 = "/large_storage/ctc/userspace/aadduri/datasets/replogle/k562"  # Example K562 dataset
+replogle_rpe1 = "/large_storage/ctc/userspace/aadduri/datasets/replogle/rpe1"  # Example RPE1 dataset
+
+# If you have custom datasets, add them here:
+# my_dataset = "/path/to/my/genetic/perturbation/dataset"
+
+# Training specifications
+# All cell types in a dataset automatically go into training (excluding zeroshot/fewshot overrides)
+[training]
+replogle_k562 = "train"
+replogle_rpe1 = "train"
+
+# Zeroshot specifications - entire cell types held out for validation/testing
+# Example: Test generalization to unseen cell types
+[zeroshot]
+# Uncomment and modify if you want to hold out specific cell types
+# replogle_k562.CellTypeA = "val"
+# replogle_rpe1.CellTypeB = "test"
+
+# Fewshot specifications - specific perturbations held out within each cell type
+# This tests generalization to unseen perturbations in seen cell types
+[fewshot]
+
+# Example: Hold out specific genes from K562 for validation/testing
+# [fewshot."replogle_k562.K562"]
+# val = ["STAT1", "IRF1", "NFKB1"]      # Genes held out for validation
+# test = ["CEBPB", "RUNX1", "GATA1"]    # Genes held out for testing
+
+# Example: Hold out specific genes from RPE1 for validation/testing
+# [fewshot."replogle_rpe1.RPE1"]
+# val = ["TP53", "MDM2"]
+# test = ["ATM", "CHEK2"]
+
+# Notes:
+# 1. For genetic perturbations, perturbation names should match gene symbols
+# 2. The ESM embeddings must contain entries for all perturbed genes
+# 3. Control perturbations (e.g., "non-targeting") are automatically handled
+# 4. You can mix training on multiple datasets with different cell types
+# 5. The model will use ESM2 embeddings to encode genetic perturbations
+#    instead of one-hot encoding, allowing better generalization

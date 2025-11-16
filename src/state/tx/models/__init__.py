@@ -6,6 +6,7 @@ from .perturb_mean import PerturbMeanPerturbationModel
 from .old_neural_ot import OldNeuralOTPerturbationModel
 from .state_transition import StateTransitionPerturbationModel
 from .pseudobulk import PseudobulkPerturbationModel
+from .esm_perturbation import ESMStateTransitionModel
 
 __all__ = [
     "PerturbationModel",
@@ -16,4 +17,5 @@ __all__ = [
     "OldNeuralOTPerturbationModel",
     "DecoderOnlyPerturbationModel",
     "PseudobulkPerturbationModel",
+    "ESMStateTransitionModel",
 ]

@@ -213,6 +213,19 @@ def get_lightning_module(model_type: str, data_config: dict, model_config: dict,
             basal_mapping_strategy=data_config["basal_mapping_strategy"],
             **module_config,
         )
+    elif model_type.lower() == "esm_state" or model_type.lower() == "esm":
+        from ...tx.models.esm_perturbation import ESMStateTransitionModel
+
+        return ESMStateTransitionModel(
+            input_dim=var_dims["input_dim"],
+            gene_dim=gene_dim,
+            hvg_dim=var_dims["hvg_dim"],
+            output_dim=var_dims["output_dim"],
+            pert_dim=var_dims["pert_dim"],
+            batch_dim=var_dims["batch_dim"],
+            basal_mapping_strategy=data_config["basal_mapping_strategy"],
+            **module_config,
+        )
     elif model_type.lower() == "globalsimplesum" or model_type.lower() == "perturb_mean":
         from ...tx.models.perturb_mean import PerturbMeanPerturbationModel
 
