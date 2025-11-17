@@ -12,3 +12,7 @@ notebooks/
 *.slurm
 temp
 wandb/
+
+# Large data directories
+data/
+processed_data/
